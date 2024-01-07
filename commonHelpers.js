@@ -1,0 +1,12 @@
+import{a as L,i as S,s as k}from"./assets/vendor-dbdbd0f5.js";(function(){const a=document.createElement("link").relList;if(a&&a.supports&&a.supports("modulepreload"))return;for(const e of document.querySelectorAll('link[rel="modulepreload"]'))c(e);new MutationObserver(e=>{for(const t of e)if(t.type==="childList")for(const o of t.addedNodes)o.tagName==="LINK"&&o.rel==="modulepreload"&&c(o)}).observe(document,{childList:!0,subtree:!0});function i(e){const t={};return e.integrity&&(t.integrity=e.integrity),e.referrerpolicy&&(t.referrerPolicy=e.referrerpolicy),e.crossorigin==="use-credentials"?t.credentials="include":e.crossorigin==="anonymous"?t.credentials="omit":t.credentials="same-origin",t}function c(e){if(e.ep)return;e.ep=!0;const t=i(e);fetch(e.href,t)}})();const v=document.querySelector(".form"),d=document.querySelector("#input"),p=document.querySelector(".gallery"),r=document.querySelector(".loader"),s=document.querySelector(".load-more-btn");let l=1,y="";r.style.display="none";s.style.display="none";v.addEventListener("submit",async n=>{n.preventDefault(),y=d.value.trim(),p.innerHTML="",d.value="",r.style.display="block",l=1,s.style.display="none",await u()});s.addEventListener("click",async()=>{r.style.display="block",await u()});async function u(){const n=new URLSearchParams({key:"41494285-2be0c6d487dc7750955372a82",q:y,image_type:"photo",orientation:"horizontal",safesearch:"true",page:l,per_page:40});try{const a=await L.get(`https://pixabay.com/api/?${n}`);if(!a.data.hits||!a.data.hits.length)S.error({message:"Sorry, there are no images matching your search query. Please try again!",theme:"dark",backgroundColor:"#EF4040",titleColor:"white",messageSize:"16",titleSize:"16",position:"topRight",maxWidth:430});else{const i=a.data.hits.reduce((e,{webformatURL:t,largeImageURL:o,tags:m,likes:f,views:g,comments:h,downloads:b})=>e+`<li class="gallery-item">
+          <a class="gallery-link" href="${o}">
+            <img class="gallery-image" src="${t}" alt="${m}" />
+          </a>          
+          <div class="description">
+            <p>Likes:<span>${f}</span></p>
+            <p>Views:<span>${g}</span></p>
+            <p>Comments:<span>${h}</span></p>
+            <p>Downloads:<span>${b}</span></p>
+          </div> 
+        </li>`,"");p.innerHTML+=i,new k("ul.gallery a",{captionDelay:250,captionsData:"alt"}).refresh(),a.data.totalHits>l*40?s.style.display="block":s.style.display="none",l++}}catch(a){r.style.display="none",console.log(a)}finally{r.style.display="none"}}
+//# sourceMappingURL=commonHelpers.js.map
