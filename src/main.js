@@ -31,6 +31,9 @@ form.addEventListener('submit', async event => {
 loadMoreBtn.addEventListener('click', async () => {
   loader.style.display = 'block';
   await performSearch();
+
+  const cardHeight = getGalleryCardHeight();
+  smoothScrollBy(cardHeight * 2);
 });
 
 async function performSearch() {
@@ -114,4 +117,28 @@ async function performSearch() {
   } finally {
     loader.style.display = 'none';
   }
+}
+
+function getGalleryCardHeight() {
+  const galleryCard = document.querySelector('.gallery-item');
+  const cardHeight = galleryCard
+    ? galleryCard.getBoundingClientRect().height
+    : 0;
+  return cardHeight;
+}
+
+function smoothScrollBy(distance) {
+  const initialTime = performance.now();
+  const duration = 600; // Set your preferred duration (in milliseconds)
+  const scroll = currentTime => {
+    const elapsedTime = currentTime - initialTime;
+    window.scrollBy({
+      top: distance * Math.sin((elapsedTime / duration) * (Math.PI / 2)),
+      behavior: 'smooth',
+    });
+    if (elapsedTime < duration) {
+      requestAnimationFrame(scroll);
+    }
+  };
+  requestAnimationFrame(scroll);
 }
